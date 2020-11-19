@@ -1,0 +1,27 @@
+modLoader="javafml"
+loaderVersion="[35,)"
+license="MIT License"
+issueTrackerURL="https://github.com/EwyBoy/Clay-WorldGen/issues"
+
+[[mods]]
+modId="clayworldgen"
+version="${file.jarVersion}"
+displayName="Clay WorldGen"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/clay-worldgen"
+credits="You came here for the credits, huh?"
+authors="Ewy"
+description='''You read the title so you know what this mod does.'''
+
+[[dependencies.clayworldgen]]
+modId="forge"
+mandatory=true
+versionRange="[35,)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.clayworldgen]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.16.3, 1.17)"
+ordering="NONE"
+side="BOTH"
