@@ -19,6 +19,7 @@ public class ClayWorldGeneration {
 
     public static void register() {
         Registry<ConfiguredFeature<?, ?>> registry = WorldGenRegistries.CONFIGURED_FEATURE;
+
         CLAY_GEN = Feature.ORE.withConfiguration(
                 new OreFeatureConfig(
                         OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD,
@@ -31,6 +32,7 @@ public class ClayWorldGeneration {
                         Config.SETTINGS.maxSpawnLevel.get()
                 )).square().func_242731_b(Config.SETTINGS.spawnRate.get())
         );
+
         Registry.register(registry, "ore_clay", CLAY_GEN);
     }
 

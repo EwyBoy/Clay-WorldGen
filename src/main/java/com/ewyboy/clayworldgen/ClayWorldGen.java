@@ -22,10 +22,4 @@ public class ClayWorldGen {
         forgeBus.addListener(EventPriority.HIGH, ClayWorldGeneration::onBiomeLoading);
     }
 
-    @SubscribeEvent(priority=EventPriority.HIGH)
-    public static void onBiomeLoading(BiomeLoadingEvent evt) {
-        ClayWorldGeneration.onBiomeLoading(evt);
-        System.out.println(evt.getCategory());
-    }
-
 }
