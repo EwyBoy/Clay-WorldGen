@@ -30,7 +30,7 @@ public class ClayWorldGeneration {
                         Config.SETTINGS.botOffset.get(),
                         Config.SETTINGS.topOffset.get(),
                         Config.SETTINGS.maxSpawnLevel.get()
-                )).square().func_242731_b(Config.SETTINGS.spawnRate.get())
+                )).square().count(Config.SETTINGS.spawnRate.get())
         );
 
         Registry.register(registry, "ore_clay", CLAY_GEN);
