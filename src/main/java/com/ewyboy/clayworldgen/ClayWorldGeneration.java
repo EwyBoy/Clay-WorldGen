@@ -20,17 +20,17 @@ public class ClayWorldGeneration {
     public static void register() {
         Registry<ConfiguredFeature<?, ?>> registry = WorldGenRegistries.CONFIGURED_FEATURE;
 
-        CLAY_GEN = Feature.ORE.withConfiguration(
+        CLAY_GEN = Feature.ORE.configured(
                 new OreFeatureConfig(
-                        OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD,
-                        Blocks.CLAY.getDefaultState(),
+                        OreFeatureConfig.FillerBlockType.NATURAL_STONE,
+                        Blocks.CLAY.defaultBlockState(),
                         Config.SETTINGS.veinSize.get()
                 )
-        ).withPlacement(Placement.RANGE.configure(new TopSolidRangeConfig(
+        ).decorated(Placement.RANGE.configured(new TopSolidRangeConfig(
                         Config.SETTINGS.botOffset.get(),
                         Config.SETTINGS.topOffset.get(),
                         Config.SETTINGS.maxSpawnLevel.get()
-                )).square().count(Config.SETTINGS.spawnRate.get())
+                )).squared().count(Config.SETTINGS.spawnRate.get())
         );
 
         Registry.register(registry, "ore_clay", CLAY_GEN);
@@ -38,7 +38,7 @@ public class ClayWorldGeneration {
 
     public static void onBiomeLoading(BiomeLoadingEvent event) {
         if (event.getCategory() != Biome.Category.THEEND && event.getCategory() != Biome.Category.NETHER) {
-            event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, ClayWorldGeneration.CLAY_GEN);
+            event.getGeneration().addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, ClayWorldGeneration.CLAY_GEN);
         }
     }
 }

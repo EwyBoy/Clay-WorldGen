@@ -74,7 +74,7 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 dependencies {
     minecraft "net.minecraftforge:forge:${MC_VERSION}-${FORGE_VERSION}"
-    implementation fg.deobf("curse.maven:worldstripper-250603:3334904")
+    implementation fg.deobf("curse.maven:worldstripper-250603:${WORLD_STRIPPER}")
 }
 
 jar {
@@ -82,7 +82,7 @@ jar {
         attributes([
                 "Specification-Title"     : MODNAME,
                 "Specification-Vendor"    : AUTHOR,
-                "Specification-Version"   : "1",
+                "Specification-Version"   : MC_VERSION,
                 "Implementation-Title"    : project.name,
                 "Implementation-Version"  : VERSION,
                 "Implementation-Vendor"   : AUTHOR,
@@ -93,15 +93,21 @@ jar {
 
 jar.finalizedBy('reobfJar')
 
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            artifact jar
-        }
+curseforge {
+    if (project.hasProperty('CF_API_KEY')){
+        apiKey = project.getProperty('CF_API_KEY')
     }
-    repositories {
-        maven {
-            url "file:///${project.projectDir}/mcmodsrepo"
+    project {
+        id = "${PROJECT_ID}"
+        changelogType = 'markdown'
+        changelog = file('CHANGELOG.md')
+        releaseType = "${RELEASE_TYPE}"
+        addGameVersion 'Forge'
+        addGameVersion '1.16.5'
+        addGameVersion '1.16.4'
+        addGameVersion '1.16.3'
+        mainArtifact(jar) {
+            displayName = "${MODNAME}-${MC_VERSION}-${VERSION}.jar"
         }
     }
 }
