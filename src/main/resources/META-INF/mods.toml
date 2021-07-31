@@ -10,7 +10,7 @@ displayName="Clay WorldGen"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/clay-worldgen"
 credits="You came here for the credits, huh?"
 authors="Ewy"
-description='''You read the title so you know what this mod does.'''
+description="You read the title so you know what this mod does."
 
 [[dependencies.clayworldgen]]
 modId="forge"

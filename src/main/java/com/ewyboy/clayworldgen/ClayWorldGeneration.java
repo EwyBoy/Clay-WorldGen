@@ -29,8 +29,8 @@ public class ClayWorldGeneration {
                         Config.SETTINGS.veinSize.get()
                 )
         ).rangeUniform(
-                VerticalAnchor.aboveBottom(Config.SETTINGS.botOffset.get()),
-                VerticalAnchor.belowTop(Config.SETTINGS.topOffset.get()))
+                VerticalAnchor.absolute(Config.SETTINGS.botOffset.get()),
+                VerticalAnchor.absolute(Config.SETTINGS.topOffset.get()))
                 .squared()
                 .count(Config.SETTINGS.spawnRate.get()
         );
