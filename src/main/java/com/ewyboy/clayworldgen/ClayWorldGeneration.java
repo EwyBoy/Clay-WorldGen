@@ -1,6 +1,7 @@
 package com.ewyboy.clayworldgen;
 
 import com.ewyboy.clayworldgen.config.Config;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
@@ -10,9 +11,7 @@ import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
-import net.minecraft.world.level.levelgen.heightproviders.UniformHeight;
-import net.minecraft.world.level.levelgen.placement.FeatureDecorator;
-import net.minecraft.world.level.levelgen.feature.configurations.RangeDecoratorConfiguration;
+import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 
 public class ClayWorldGeneration {
@@ -24,11 +23,11 @@ public class ClayWorldGeneration {
 
         CLAY_GEN = Feature.ORE.configured(
                 new OreConfiguration(
-                        OreConfiguration.Predicates.NATURAL_STONE,
+                        (RuleTest) BlockTags.BASE_STONE_OVERWORLD,
                         Blocks.CLAY.defaultBlockState(),
                         Config.SETTINGS.veinSize.get()
                 )
-        ).rangeUniform(
+        ).(
                 VerticalAnchor.absolute(Config.SETTINGS.botOffset.get()),
                 VerticalAnchor.absolute(Config.SETTINGS.topOffset.get()))
                 .squared()
