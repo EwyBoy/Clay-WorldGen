@@ -9,7 +9,7 @@ public class Config {
     public static final Config.Settings SETTINGS;
 
     static {
-        Pair<Settings, ForgeConfigSpec> specPair = (new ForgeConfigSpec.Builder()).configure(Config.Settings::new);
+        Pair<Settings, ForgeConfigSpec> specPair = (new ForgeConfigSpec.Builder()).configure(Config.Settings :: new);
         settingSpec = specPair.getRight();
         SETTINGS = specPair.getLeft();
     }
@@ -26,8 +26,8 @@ public class Config {
             builder.comment("Config file for Clay WorldGen").push("SETTINGS");
 
                 builder.comment("Maximum / Minimum Y-level to spawn Clay").push("Spawn Level");
-                    this.botOffset = builder.comment("Lowest Y-level the clay can spawn at").translation("clayworldgen.config.botOffset").defineInRange("botOffset", 32, 1, 256);
-                    this.topOffset = builder.comment("Highest Y-Level the clay can spawn at").translation("clayworldgen.config.topOffset").defineInRange("topOffset", 128, 1, 256);
+                    this.botOffset = builder.comment("Lowest Y-level the clay can spawn at").translation("clayworldgen.config.botOffset").defineInRange("botOffset", 32, -1024, 1024);
+                    this.topOffset = builder.comment("Highest Y-Level the clay can spawn at").translation("clayworldgen.config.topOffset").defineInRange("topOffset", 128, -1024, 1024);
                 builder.pop();
 
                 builder.comment("Maximum vein size for Clay").push("Vein Size");

@@ -19,7 +19,7 @@ public class ClayWorldGen {
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.settingSpec);
         ClayWorldGeneration.register();
         IEventBus forgeBus = MinecraftForge.EVENT_BUS;
-        forgeBus.addListener(EventPriority.HIGH, ClayWorldGeneration::onBiomeLoading);
+        forgeBus.addListener(EventPriority.HIGH, ClayWorldGeneration :: onBiomeLoading);
     }
 
 }

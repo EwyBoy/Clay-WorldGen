@@ -1,12 +1,14 @@
 package com.ewyboy.clayworldgen;
 
 import com.ewyboy.clayworldgen.config.Config;
-import net.minecraft.data.worldgen.features.OreFeatures;
-import net.minecraft.data.worldgen.placement.OrePlacements;
-import net.minecraft.world.level.block.Blocks;
+import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
+import net.minecraft.data.worldgen.features.FeatureUtils;
+import net.minecraft.data.worldgen.features.OreFeatures;
+import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
@@ -19,8 +21,8 @@ import java.util.List;
 
 public class ClayWorldGeneration {
 
-    protected static ConfiguredFeature<?, ?> configuredClayFeature;
-    protected static PlacedFeature placedClayFeature;
+    public static Holder<PlacedFeature> CLAY_ORE_PLACED;
+    public static Holder<ConfiguredFeature<OreConfiguration, ?>> CLAY_ORE_CONFIGURED;
 
     private static List<PlacementModifier> orePlacement(PlacementModifier placementModifier, PlacementModifier placementModifiers) {
         return List.of(placementModifier, InSquarePlacement.spread(), placementModifiers, BiomeFilter.biome());
@@ -31,28 +33,34 @@ public class ClayWorldGeneration {
     }
 
     public static void register() {
-        Registry<ConfiguredFeature<?, ?>> configuredFeatureRegistry = BuiltinRegistries.CONFIGURED_FEATURE;
-        Registry<PlacedFeature> placedFeatureRegistry = BuiltinRegistries.PLACED_FEATURE;
-
-        configuredClayFeature = Feature.ORE.configured(
-                new OreConfiguration(
-                        OreFeatures.NATURAL_STONE,
-                        Blocks.CLAY.defaultBlockState(),
+        CLAY_ORE_CONFIGURED = FeatureUtils.register(
+                "ore_clay_feature", Feature.ORE, new OreConfiguration(
+                        List.of(
+                                OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, Blocks.CLAY.defaultBlockState()),
+                                OreConfiguration.target(OreFeatures.DEEPSLATE_ORE_REPLACEABLES, Blocks.CLAY.defaultBlockState())
+                        ),
                         Config.SETTINGS.veinSize.get()
                 )
         );
-
-        placedClayFeature = configuredClayFeature.placed(
-                rareOrePlacement(Config.SETTINGS.spawnRate.get(), HeightRangePlacement.uniform(VerticalAnchor.absolute(Config.SETTINGS.botOffset.get()), VerticalAnchor.absolute(Config.SETTINGS.topOffset.get())))
+        CLAY_ORE_PLACED = PlacementUtils.register(
+                "ore_clay_placed", CLAY_ORE_CONFIGURED,
+                rareOrePlacement(
+                        Config.SETTINGS.spawnRate.get(),
+                        HeightRangePlacement.uniform(
+                                VerticalAnchor.absolute(
+                                        Config.SETTINGS.botOffset.get()
+                                ),
+                                VerticalAnchor.absolute(
+                                        Config.SETTINGS.topOffset.get()
+                                )
+                        )
+                )
         );
-
-        Registry.register(configuredFeatureRegistry, "ore_clay_feature", configuredClayFeature);
-        Registry.register(placedFeatureRegistry, "ore_clay_placed", placedClayFeature);
     }
 
     public static void onBiomeLoading(BiomeLoadingEvent event) {
         if (event.getCategory() != Biome.BiomeCategory.THEEND && event.getCategory() != Biome.BiomeCategory.NETHER) {
-            event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, ClayWorldGeneration.placedClayFeature);
+            event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, Holder.direct(ClayWorldGeneration.CLAY_ORE_PLACED.value()));
         }
     }
 }
